@@ -36,7 +36,7 @@ public class EconomicInformationInquiryService {
     public GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(String nationalCode) {
 
 
-        long hashedSsn = Long.parseLong(nationalCode);
+        long hashedSsn = earningRepo.getHashedSsn(nationalCode);
         List<CardPercentileReport> cardPercentileReports = percentileRepo
                 .findByResSsn(hashedSsn);
         List<CarInformation> carInformationList = carsRepo
