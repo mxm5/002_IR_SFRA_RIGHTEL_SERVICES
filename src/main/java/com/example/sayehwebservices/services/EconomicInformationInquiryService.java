@@ -35,10 +35,13 @@ public class EconomicInformationInquiryService {
 
     public GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(String nationalCode) {
 
+
+        long hashedSsn = Long.parseLong(nationalCode);
         List<CardPercentileReport> cardPercentileReports = percentileRepo
                 .findByResSsn(nationalCode);
         List<CarInformation> carInformationList = carsRepo
-                .findByResSsn(nationalCode);
+                .findByResSsn(hashedSsn);
+        carInformationList.forEach(System.out::println);
         List<EarningReport> earningReports = earningRepo
                 .findByResSsn(nationalCode);
         List<RareDeceasesInfo> rareDeceasesInfos = deceaseRepo
