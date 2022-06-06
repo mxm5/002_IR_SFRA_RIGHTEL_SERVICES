@@ -15,23 +15,23 @@ import java.time.LocalDateTime;
 @Slf4j
 public class GlobalExceptionHandlerBean {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception exception, WebRequest request) {
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                exception.getMessage(),
-                request.getDescription(false)
-        );
-        log.error(exception.getMessage());
-        log.error(exception.getCause().toString());
-        log.error(exception.getStackTrace().toString());
-        return new ResponseEntity(
-                errorResponse,
-                HttpStatus.NOT_FOUND
-        );
-
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<?> handleException(Exception exception, WebRequest request) {
+//
+//        ErrorResponse errorResponse = new ErrorResponse(
+//                LocalDateTime.now(),
+//                exception.getMessage(),
+//                request.getDescription(false)
+//        );
+//        log.error(exception.getMessage());
+//        log.error(exception.getCause().toString());
+//        log.error(exception.getStackTrace().toString());
+//        return new ResponseEntity(
+//                errorResponse,
+//                HttpStatus.NOT_FOUND
+//        );
+//
+//    }
 
 
     @ExceptionHandler(DecileInfoCodedException.class)
