@@ -1,54 +1,52 @@
 package com.example.sayehwebservices.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+
 import java.util.Objects;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "VW_RAREDESEASES", schema = "SAYEH", catalog = "") // بیماری های خاص
+@ToString
+@Entity
+@Table(name = "VW_RAREDEASES", schema = "SAYEH", catalog = "")
 public class RareDeceasesInfo {
-
-    @Basic
-    @Column(name = "RES_SSN", nullable = true, length = 10)
-    private String resSsn; // کد ملی سرپرست
     @Id
     @Basic
-    @Column(name = "SSN", nullable = true, length = 10)
-    private String ssn; // کدملی شخص
+    @Column(name = "RES_SSN", nullable = true, precision = 0)
+    private Long resSsn;
+    @Basic
+    @Column(name = "SSN", nullable = true, length = 0)
+    private String ssn;
     @Basic
     @Column(name = "FIRSTNAME", nullable = true, length = 100)
-    private String firstname; // نام
+    private String firstname;
     @Basic
-    @Column(name = "LASTNAME", nullable = true, length = 100)
-    private String lastname; // نام خانوادگی
+    @Column(name = "LASTNAME", nullable = true, length = 0)
+    private String lastname;
     @Basic
-    @Column(name = "DESEASESTYPE", nullable = true, precision = 0)
-    private Boolean deseasestype ; // دارای بیماری خاص
+    @Column(name = "BIMARYGROUP", nullable = true, length = 100)
+    private String bimarygroup;
     @Basic
-    @Column(name = "DESEASESTITLE", nullable = true, length = 100)
-    private String deseasestitle; // نام بیماری خاص
+    @Column(name = "BIMARYTYPE", nullable = true, length = 100)
+    private String bimarytype;
     @Basic
-    @Column(name = "DESEASESREPORTSOURCE", nullable = true, length = 100)
-    private String deseasesreportsource; // منبع گزارش بیماری خاص
+    @Column(name = "BIMARKHAS_SOURCE", nullable = true, length = 100)
+    private String bimarkhasSource;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RareDeceasesInfo that = (RareDeceasesInfo) o;
-        return Objects.equals(resSsn, that.resSsn) && Objects.equals(ssn, that.ssn) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(deseasestype, that.deseasestype) && Objects.equals(deseasestitle, that.deseasestitle) && Objects.equals(deseasesreportsource, that.deseasesreportsource);
+        return Objects.equals(resSsn, that.resSsn) && Objects.equals(ssn, that.ssn) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(bimarygroup, that.bimarygroup) && Objects.equals(bimarytype, that.bimarytype) && Objects.equals(bimarkhasSource, that.bimarkhasSource);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resSsn, ssn, firstname, lastname, deseasestype, deseasestitle, deseasesreportsource);
+        return Objects.hash(resSsn, ssn, firstname, lastname, bimarygroup, bimarytype, bimarkhasSource);
     }
 }

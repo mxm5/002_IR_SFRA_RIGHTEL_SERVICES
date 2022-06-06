@@ -38,14 +38,14 @@ public class EconomicInformationInquiryService {
 
         long hashedSsn = Long.parseLong(nationalCode);
         List<CardPercentileReport> cardPercentileReports = percentileRepo
-                .findByResSsn(nationalCode);
+                .findByResSsn(hashedSsn);
         List<CarInformation> carInformationList = carsRepo
                 .findByResSsn(hashedSsn);
         carInformationList.forEach(System.out::println);
         List<EarningReport> earningReports = earningRepo
-                .findByResSsn(nationalCode);
+                .findByResSsn(hashedSsn);
         List<RareDeceasesInfo> rareDeceasesInfos = deceaseRepo
-                .findByResSsn(nationalCode);
+                .findByResSsn(hashedSsn);
 
         return new GeneralEconomicStatusResponse(
                 cardPercentileReports,

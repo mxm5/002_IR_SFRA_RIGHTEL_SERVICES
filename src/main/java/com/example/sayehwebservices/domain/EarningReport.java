@@ -1,53 +1,50 @@
 package com.example.sayehwebservices.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.Objects;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "VW_EARNING", schema = "SAYEH", catalog = "") // اطلاعات درآمدی
+@ToString
+@Entity
+@Table(name = "VW_EARNING", schema = "SAYEH", catalog = "")
 public class EarningReport {
-    @Basic
-    @Column(name = "RES_SSN", nullable = true, length = 10)
-    private String resSsn; // کد ملی سرپرست
     @Id
     @Basic
-    @Column(name = "SSN", nullable = true, length = 10)
-    private String ssn; // کد ملی شخص
+    @Column(name = "RES_SSN", nullable = true, precision = 0)
+    private Long resSsn;
+    @Basic
+    @Column(name = "SSN", nullable = true, length = 0)
+    private String ssn;
     @Basic
     @Column(name = "FIRSTNAME", nullable = true, length = 100)
-    private String firstname; // نام
+    private String firstname;
     @Basic
-    @Column(name = "LASTNAME", nullable = true, length = 100)
-    private String lastname; // نام خانوادگی
+    @Column(name = "LASTNAME", nullable = true, length = 0)
+    private String lastname;
     @Basic
     @Column(name = "FIXEDEARNINGAMOUNT", nullable = true, precision = 0)
-    private Long fixedearningamount; // میزان درآمد ثابت
+    private Long fixedearningamount;
     @Basic
     @Column(name = "BANKPROFITAMOUNT", nullable = true, precision = 0)
-    private Long bankprofitamount; // میزان سود بانکی
+    private Long bankprofitamount;
     @Basic
     @Column(name = "JOBTITLE", nullable = true, length = 100)
-    private String jobtitle; // عنوان شغلی
+    private String jobtitle;
     @Basic
     @Column(name = "INCOMEREPORTSOURCE", nullable = true, length = 100)
-    private String incomereportsource; // منبع گزارش درآمدها
+    private String incomereportsource;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EarningReport earningReport = (EarningReport) o;
-        return Objects.equals(resSsn, earningReport.resSsn) && Objects.equals(ssn, earningReport.ssn) && Objects.equals(firstname, earningReport.firstname) && Objects.equals(lastname, earningReport.lastname) && Objects.equals(fixedearningamount, earningReport.fixedearningamount) && Objects.equals(bankprofitamount, earningReport.bankprofitamount) && Objects.equals(jobtitle, earningReport.jobtitle) && Objects.equals(incomereportsource, earningReport.incomereportsource);
+        EarningReport that = (EarningReport) o;
+        return Objects.equals(resSsn, that.resSsn) && Objects.equals(ssn, that.ssn) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(fixedearningamount, that.fixedearningamount) && Objects.equals(bankprofitamount, that.bankprofitamount) && Objects.equals(jobtitle, that.jobtitle) && Objects.equals(incomereportsource, that.incomereportsource);
     }
 
     @Override

@@ -1,46 +1,44 @@
 package com.example.sayehwebservices.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.Objects;
 
-@Entity
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "VW_CARD_PERCENTILE", schema = "SAYEH", catalog = "") // گزارش صدک خرید های کارتی
+@ToString
+@Entity
+@Table(name = "VW_CARD_PERCENTILE", schema = "SAYEH", catalog = "")
 public class CardPercentileReport {
-    @Basic
-    @Column(name = "RES_SSN", nullable = true, length = 10)
-    private String resSsn; // کد ملی سرپرست
     @Id
     @Basic
-    @Column(name = "SSN", nullable = true, length = 10)
-    private String ssn; // کد ملی شخص
+    @Column(name = "RES_SSN", nullable = true, precision = 0)
+    private Long resSsn;
+    @Basic
+    @Column(name = "SSN", nullable = true, length = 0)
+    private String ssn;
     @Basic
     @Column(name = "FIRSTNAME", nullable = true, length = 100)
-    private String firstname; // نام
+    private String firstname;
     @Basic
-    @Column(name = "LASTNAME", nullable = true, length = 100)
-    private String lastname; // نام خانوادگی
+    @Column(name = "LASTNAME", nullable = true, length = 0)
+    private String lastname;
     @Basic
     @Column(name = "PERCENTILE", nullable = true, precision = 0)
-    private Long percentile; // صدک
+    private Long percentile;
     @Basic
     @Column(name = "FROMAMOUNT", nullable = true, precision = 0)
-    private Long fromamount; // ابتدای بازه صدک
+    private Long fromamount;
     @Basic
     @Column(name = "TOAMOUNT", nullable = true, precision = 0)
-    private Long toamount; // انتهای بازه صدک
+    private Long toamount;
     @Basic
     @Column(name = "PERIODTITLE", nullable = true, length = 100)
-    private String periodtitle; // عنوان دوره زمانی
+    private String periodtitle;
 
     @Override
     public boolean equals(Object o) {

@@ -30,15 +30,16 @@ public class PublicProfileService {
         PersianDate persianDateObj = PersianDate.parse(persianBirthdateUnformatted, formatter);
         LocalDate gregorianBirthdate = persianDateObj.toGregorian();
         String nationalCode = publicProfileRequest.getNationalCode();
+        long hashedNationalCode = Long.parseLong(nationalCode);
         RegisteredPublicProfile person = publicProfileRepo.findByNationalcodeAndBirthdate(
-                nationalCode, gregorianBirthdate.toString()
+                hashedNationalCode, null
         );
         if (person != null) {
             String firstName = person.getFirstname();
             String lastName = person.getLastname();
             String fatherName = person.getFathername();
             String birthDate = person.getBirthdate();
-            String gender = person.getGenderid();
+            boolean gender = person.getGenderid();
             String body = String.format(
                     "{\n" +
                             "    \"status\": \"success\",\n" +
@@ -77,7 +78,7 @@ public class PublicProfileService {
                     lastName,
                     fatherName,
                     persianDateObj.toString(),
-                    gender
+                    gender?'1':'2'
 
             );
             MultiValueMap<String, String> headers = new HttpHeaders();

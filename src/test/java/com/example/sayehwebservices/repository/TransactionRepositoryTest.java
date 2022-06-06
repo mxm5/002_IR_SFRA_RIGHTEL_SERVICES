@@ -36,7 +36,7 @@ class TransactionRepositoryTest {
     void testForQueryingCVReg() {
 
         RegisteredPublicProfile byNationalcodeAndBirthdate = publicProfileRepository.findByNationalcodeAndBirthdate(
-                "1600037461","1959-01-29"
+                1600037461L,"1959-01-29"
         );
         System.out.println(byNationalcodeAndBirthdate);
     }
