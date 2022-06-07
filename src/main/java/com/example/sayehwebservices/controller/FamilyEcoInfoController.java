@@ -25,12 +25,12 @@ public class FamilyEcoInfoController {
     EcoInfoResponseDto get(@RequestBody NationalCodeRequest nationalCodeRequest) {
         return ecoInfoService.getByPersonNationalCode(nationalCodeRequest.getNationalCode());
     }
+
     @Autowired
     EconomicInformationInquiryService inquiryService;
 
     @PostMapping("/detailed-inquiry")
     GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) {
-        System.out.println("endpoint hit");
         return inquiryService.getEconomicStatuesForPersonByNationalCode(nationalCodeRequest.getNationalCode());
     }
 
