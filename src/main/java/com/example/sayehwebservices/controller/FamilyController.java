@@ -23,7 +23,9 @@ public class FamilyController {
 
     @PostMapping("/get-family-members-by-household-parent-national-code")
     FamilyMembersRes getFamilyMembersByHouseHoldParentNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) {
-        return khanevarService.getFamilyMembersByParentNationalCode(nationalCodeRequest.getNationalCode());
+        return khanevarService.getFamilyMembersByParentNationalCode(
+                nationalCodeRequest.getNationalCode()
+        );
     }
 
 }

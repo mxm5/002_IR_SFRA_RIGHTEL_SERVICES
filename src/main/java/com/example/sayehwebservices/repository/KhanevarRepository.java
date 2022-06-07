@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.Set;
 
 public interface KhanevarRepository extends JpaRepository<khanevar, String> {
-    List<khanevar> findByResSsn(String resSsn);
+    @Query(value = "select * from VW_REFAH_KHANEVAR where RES_SSN =:resSsn",nativeQuery = true)
+    List<khanevar> findByResSsn(Long resSsn);
 
     // TODO: MAKE THIS QUERY FASTER FOR EXECUTION
     @Query(value = "select * from TB_KHANEVAR where RES_SSN =:resSsn",nativeQuery = true)
     List<khanevar> findByResSsnNativeQuery(@Param("resSsn") String resSsn);
+
+    @Query(nativeQuery = true,value = "select refahdb.get_memberid(:ssn) from dual")
+    Long getHashedSsn(@Param("ssn") String ssn);
 }

@@ -1,73 +1,50 @@
 package com.example.sayehwebservices.domain;
 
-import lombok.*;
-import org.hibernate.annotations.Immutable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigInteger;
-import java.util.Objects;
+import java.util.UUID;
 
-
-@Entity
-@Table(name = "VW_REFAH_KHANEVAR")
-// todo : move to physical table with index on the ssn or national code so the performance can boost
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "VW_REFAH_KHANEVAR", schema = "SAYEH", catalog = "")
 public class khanevar {
 
+
     @Basic
-    @Column(name = "RES_SSN", nullable = true, length = 20)
-    private String resSsn;
+    @Column(name = "RES_SSN", nullable = true, precision = 0)
+    private Long resSsn;
+
     @Id
     @Basic
-    @Column(name = "SSN", nullable = true, length = 20)
-    private String ssn;
+    @Column(name = "SSN", nullable = false, precision = 0)
+    private Long ssn;
     @Basic
-    @Column(name = "FIRSTNAME", nullable = true, length = 200)
+    @Column(name = "FIRSTNAME", nullable = true, length = 100)
     private String firstname;
     @Basic
-    @Column(name = "LASTNAME", nullable = true, length = 200)
+    @Column(name = "LASTNAME", nullable = true, length = 100)
     private String lastname;
+
     @Basic
-    @Column(name = "FATHERNAME", nullable = true, length = 200)
+    @Column(name = "FATHERNAME", nullable = true, length = 100)
     private String fathername;
     @Basic
-    @Column(name = "SHAMSIBIRTHDATE", nullable = true, length = 20)
+    @Column(name = "SHAMSIBIRTHDATE", nullable = true, length = 10)
     private String shamsibirthdate;
     @Basic
-    @Column(name = "LOC", nullable = true, length = 10)
+    @Column(name = "LOC", nullable = true, length = 0)
     private String loc;
-
     @Basic
     @Column(name = "DECILE", nullable = true, precision = 0)
-    private BigInteger decile;
+    private Byte decile;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        khanevar khanevar = (khanevar) o;
-        return ssn.equals(khanevar.ssn);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(ssn);
-    }
-
-    @Override
-    public String toString() {
-        return "khanevar{" +
-                "resSsn='" + resSsn + '\'' +
-                ", ssn='" + ssn + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", fathername='" + fathername + '\'' +
-                ", shamsibirthdate='" + shamsibirthdate + '\'' +
-                ", loc='" + loc + '\'' +
-                '}';
-    }
 }
