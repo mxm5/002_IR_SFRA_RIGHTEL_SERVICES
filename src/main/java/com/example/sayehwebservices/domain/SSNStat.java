@@ -20,13 +20,13 @@ public class SSNStat {
     private String ssn;
     @Basic
     @Column(name = "SSN_STAT", nullable = true, precision = 0)
-    private int ssnStat;
+    private Integer ssnStat;
     @Basic
     @Column(name = "DECILE", nullable = true, precision = 0)
-    private int decile;
+    private Integer decile;
     @Basic
     @Column(name = "MASHMOOL", nullable = true, precision = 0)
-    private int mashmool;
+    private Integer mashmool;
 
     @Override
     public boolean equals(Object o) {
