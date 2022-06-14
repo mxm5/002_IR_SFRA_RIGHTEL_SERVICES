@@ -39,20 +39,37 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
+
                         "/api/v1/auth/register",
                         "/api/v1/auth/login",
+                        "/swagger-ui.html",
+                        "/swagger-ui/index.html",
+                        "/swagger-ui-custom.html",
+                        "/api-docs",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v2/api-docs",
+                        "/swagger-ui/**",
+                        "/swagger-ui/index.css",
+                        "/swagger-ui/swagger-ui.css",
+                        "/swagger-ui/favicon-32x32.png",
+                        "/swagger-ui/favicon-16x16.png",
+                        "/swagger-ui/swagger-ui-bundle.js",
+                        "/swagger-ui/swagger-ui-standalone-preset.js",
+                        "/swagger-ui/swagger-initializer.js",
 //                      "/api/verification",
 //                      "/api/signup",
 //                      "/api/media/download/**",
 //                      "/api/logout",
 //                      "/api/v2/api-docs",
-//                      "/api/configuration/ui",
-//                      "/api/swagger-resources/**",
-//                      "/api/configuration/security",
-//                      "/api/swagger-ui.html",
+                        "/api/configuration/ui",
+                        "/api/swagger-resources/**",
+                        "/api/configuration/security",
+                        "/api/swagger-ui.html",
                         "/api/webjars/**"
                 ).permitAll()
-                .antMatchers("/**").authenticated().and()
+                .antMatchers("/**").authenticated()
+                .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedResponseHandler)
                 .authenticationEntryPoint(authenticationEntryPointHandler)
@@ -65,7 +82,6 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
-
 
 
 //    @Autowired
@@ -119,3 +135,18 @@ class testp {
 
     }
 }
+
+
+//<link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
+//<link rel="stylesheet" type="text/css" href="index.css" />
+//<link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+//<link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+//</head>
+//
+//<body>
+//<div id="swagger-ui"></div>
+//<script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
+//<script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+//<script src="./swagger-initializer.js" charset="UTF-8"> </script>
+//</body>
+//</html>

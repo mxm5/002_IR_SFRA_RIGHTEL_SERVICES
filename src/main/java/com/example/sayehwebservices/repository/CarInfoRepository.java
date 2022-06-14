@@ -12,5 +12,6 @@ import java.util.List;
 public interface CarInfoRepository extends JpaRepository<CarInformation, Long> {
     @Query(nativeQuery = true,value = "select refahdb.get_memberid(:ssn) from dual")
     Long getHashedSsn(@Param("ssn") String ssn);
+
     List<CarInformation> findByResSsn(/*@Param("resSsn")*/ Long resSsn);
 }
