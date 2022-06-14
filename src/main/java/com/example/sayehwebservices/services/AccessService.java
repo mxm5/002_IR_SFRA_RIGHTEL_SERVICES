@@ -36,3 +36,8 @@ public class AccessService {
         return new AccessResponse(accessList, message, canEnter);
     }
 }
+//can_submit_objection//توانایی اعتراض
+//can_view_decile//توانایی دیدن دهک
+//can_register_for_subsidy//توانایی ثبت نام برای یارانه
+//can_view_family_info//توانایی دیدن اطلاعات خانوار
+//can_view_economic_info//توانایی دیدن اطلاعات اقتصادی خانوار
