@@ -5,6 +5,7 @@ import com.example.sayehwebservices.services.dto.AccessResponse;
 import com.example.sayehwebservices.services.dto.NationalCodeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class AccessController {
     AccessService accessService;
 
     @PostMapping("/get-system-access")
-    public AccessResponse getAccessFor(NationalCodeRequest nationalCodeRequest) {
+    public AccessResponse getAccessFor(@RequestBody NationalCodeRequest nationalCodeRequest) throws Exception {
         String nationalCode = nationalCodeRequest.getNationalCode();
         return accessService.getAccessInfo(nationalCode);
     }

@@ -2,6 +2,8 @@ package com.example.sayehwebservices.services;
 
 import com.example.sayehwebservices.domain.SSNStat;
 import com.example.sayehwebservices.repository.SSNSStatRepository;
+import com.example.sayehwebservices.services.dto.AccessResponse;
+import com.example.sayehwebservices.services.dto.AppAccess;
 import com.example.sayehwebservices.services.dto.SSNStatResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -9,12 +11,16 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.sql.JDBCType.STRUCT;
 
@@ -63,131 +69,55 @@ public class SSNStatService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public AccessResponse getAccessFromOracleFunction(String nationalCode) throws Exception {
 
-    // define the stored procedure
-//StoredProcedureQuery query = this.em.createStoredProcedureQuery("calculate");
-//query.registerStoredProcedureParameter("x", Double.class, ParameterMode.IN);
-//query.registerStoredProcedureParameter("y", Double.class, ParameterMode.IN);
-//query.registerStoredProcedureParameter("sum", Double.class, ParameterMode.OUT);
-    public void getShit(String nationalCode) {
+        if (nationalCode.isBlank() || nationalCode.isEmpty()) {
+            throw new Exception("کد ملی دریافت نشد");
+        }
 
+        // getting function
         StoredProcedureQuery procedure = entityManager.createStoredProcedureQuery("REFAHDB.PKG_OBJECTION.PRC_REGISTER2");
+        // defining parameters in function
         procedure.registerStoredProcedureParameter("P_IN_SSN", String.class, ParameterMode.IN);
-        procedure.registerStoredProcedureParameter("P_OUT_MESSAGE", String.class, ParameterMode.OUT);
         procedure.registerStoredProcedureParameter("P_OUT_ENTERANCE", Integer.class, ParameterMode.OUT);
+        procedure.registerStoredProcedureParameter("P_OUT_MESSAGE", String.class, ParameterMode.OUT);
         procedure.registerStoredProcedureParameter("P_OUT_PRIVS", String.class, ParameterMode.OUT);
-//
-// set input parameter
-//        query.setParameter("x", 1.23d);
-//        query.setParameter("y", 4.56d);
-
-// call the stored procedure and get the result
-//        query.execute();
-//        Double sum = (Double) query.getOutputParameterValue("sum");
-        procedure.setParameter("P_IN_SSN", "1111111111");
+        procedure.registerStoredProcedureParameter("P_RESPONSE_CODE", Integer.class, ParameterMode.OUT);
+        procedure.registerStoredProcedureParameter("P_RESPONSE_DESC", String.class, ParameterMode.OUT);
+        // passing input values
+        procedure.setParameter("P_IN_SSN", nationalCode);
+        // run
         procedure.execute();
+        // extracting values
         String p_out_message = (String) procedure.getOutputParameterValue("P_OUT_MESSAGE");
         Integer p_out_enterance = (Integer) procedure.getOutputParameterValue("P_OUT_ENTERANCE");
         String p_out_privs = (String) procedure.getOutputParameterValue("P_OUT_PRIVS");
-        System.out.println(
-                "\np_out_message\n" + p_out_message + " " +
-                        "\np_out_enterance\n" + p_out_enterance + " " +
-                        "\np_out_privs\n" + p_out_privs + " "
+        Integer p_response_code = (Integer) procedure.getOutputParameterValue("P_RESPONSE_CODE");
+        String p_response_desc = (String) procedure.getOutputParameterValue("P_RESPONSE_DESC");
+        //split
+        String[] split = p_out_privs.split("");
+        //
+        AppAccess can_view_decile = new AppAccess("can_view_decile", Objects.equals(split[0], "1"));
+        AppAccess can_view_family_info = new AppAccess("can_view_family_info", Objects.equals(split[1], "1"));
+        AppAccess can_view_economic_info = new AppAccess("can_view_economic_info", Objects.equals(split[2], "1"));
+        AppAccess can_submit_objection = new AppAccess("can_submit_objection", Objects.equals(split[3], "1"));
+        AppAccess can_register_for_subsidy = new AppAccess("can_register_for_subsidy", Objects.equals(split[4], "1"));
+
+
+        List<AppAccess> accessList = new ArrayList<>(List.of(
+                can_submit_objection,
+                can_view_decile,
+                can_register_for_subsidy,
+                can_view_family_info,
+                can_view_economic_info
+        ));
+
+
+        return new AccessResponse(
+                accessList, p_out_message, p_out_enterance==1
         );
-    }
-
-    public void getShitB(String nationalCode) {
-
-        StoredProcedureQuery procedure = entityManager.createStoredProcedureQuery("REFAHDB.PKG_OBJECTION.PRC_REGISTER");
-        procedure.registerStoredProcedureParameter("P_IN_SSN", String.class, ParameterMode.IN);
-        procedure.registerStoredProcedureParameter("P_OUT_MESSAGE", String.class, ParameterMode.OUT);
-        procedure.registerStoredProcedureParameter("P_OUT_ENTERANCE", Integer.class, ParameterMode.OUT);
-        procedure.registerStoredProcedureParameter("P_OUT_PRIVS", Object[].class, ParameterMode.OUT);
-//
-// set input parameter
-//        query.setParameter("x", 1.23d);
-//        query.setParameter("y", 4.56d);
-
-// call the stored procedure and get the result
-//        query.execute();
-//        Double sum = (Double) query.getOutputParameterValue("sum");
-        procedure.setParameter("P_IN_SSN", "1111111111");
-        procedure.execute();
-        String p_out_message = (String) procedure.getOutputParameterValue("P_OUT_MESSAGE");
-        Integer p_out_enterance = (Integer) procedure.getOutputParameterValue("P_OUT_ENTERANCE");
-        Object[] p_out_privs = (Object[])
-                procedure.getOutputParameterValue("P_OUT_PRIVS");
-        System.out.println(
-                "\np_out_message\n" + p_out_message + " " +
-                        "\np_out_enterance\n" + p_out_enterance + " " +
-                        "\np_out_privs\n" + p_out_privs + " "
-        );
-    }
-
-    public void getShitC(String nationalCode) {
-
-        StoredProcedureQuery procedure = entityManager.createStoredProcedureQuery("REFAHDB.PKG_OBJECTION.PRC_REGISTER");
-        procedure.registerStoredProcedureParameter("P_IN_SSN", String.class, ParameterMode.IN);
-//        procedure.registerStoredProcedureParameter("P_OUT_MESSAGE", String.class, ParameterMode.OUT);
-//        procedure.registerStoredProcedureParameter("P_OUT_ENTERANCE", Integer.class, ParameterMode.OUT);
-        procedure.registerStoredProcedureParameter("P_OUT_PRIVS", Object[].class, ParameterMode.OUT);
-//
-// set input parameter
-//        query.setParameter("x", 1.23d);
-//        query.setParameter("y", 4.56d);
-
-// call the stored procedure and get the result
-//        query.execute();
-//        Double sum = (Double) query.getOutputParameterValue("sum");
-        procedure.setParameter("P_IN_SSN", "1111111111");
-        boolean execute = procedure.execute();
-        List<Object> resultList = procedure.getResultList();
-        resultList.forEach(System.out::println);
-
-//        String p_out_message = (String) procedure.getOutputParameterValue("P_OUT_MESSAGE");
-//        Integer p_out_enterance = (Integer) procedure.getOutputParameterValue("P_OUT_ENTERANCE");
-//        Object[] p_out_privs = (Object[])
-//                procedure.getOutputParameterValue("P_OUT_PRIVS");
-//        System.out.println(
-//                "\np_out_message\n" + p_out_message + " " +
-//                        "\np_out_enterance\n" + p_out_enterance + " " +
-//                        "\np_out_privs\n" + p_out_privs + " "
-//        );
-    }
-
-    @Transactional // No transactional EntityManager available
-    public void gsd() {
-//        java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
-//        Session session = (Session) em.getDelegate();
-//        SessionFactoryImplementor sfi = (SessionFactoryImplementor) session.getSessionFactory();
-//        ConnectionProvider cp = sfi.getConnectionProvider();
-//        Connection connection = cp.getConnection();
-//        Connection conn = (Connection) entityManager.unwrap(java.sql.Connection.class);// https://blog.krybot.com/a?ID=01500-d67fac17-a7d6-47db-a6b8-622981e36954
-        Connection connection = entityManager.unwrap(SessionImpl.class).connection();
-
-       if(1==2) {
-            try {
-                Statement statement = connection.createStatement();
-
-                ResultSet resultSet = statement.executeQuery("call REFAHDB.PKG_OBJECTION.PRC_REGISTER('1111111111',p_out_privs=>:p_out_privs)");
-                java.sql.Struct jdbcStruct = (java.sql.Struct) resultSet.getObject(1);
-                System.out.println(jdbcStruct);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-
-            CallableStatement callableStatement = connection.prepareCall("{call REFAHDB.PKG_OBJECTION.PRC_REGISTER(?,?)}");
-            callableStatement.setString(1,"1111111111");
-            callableStatement.registerOutParameter(2, STRUCT, "EMP_OBJECT");
-            callableStatement.execute();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
     }
+
 
 }
