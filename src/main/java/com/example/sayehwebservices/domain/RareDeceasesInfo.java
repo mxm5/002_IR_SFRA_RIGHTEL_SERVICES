@@ -14,7 +14,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "VW_RAREDEASES", schema = "SAYEH", catalog = "")
 public class RareDeceasesInfo {
-    @Id
+//    @Id
+//    @Basic
+//    @Column(name = "GUID", nullable = true)
+//    private String  guid;
+    @Id // TODO:
     @Basic
     @Column(name = "RES_SSN", nullable = true, precision = 0)
     private Long resSsn;

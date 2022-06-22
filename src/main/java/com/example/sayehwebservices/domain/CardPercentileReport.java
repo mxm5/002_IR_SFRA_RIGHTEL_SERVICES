@@ -16,6 +16,9 @@ import java.util.Objects;
 public class CardPercentileReport {
     @Id
     @Basic
+    @Column(name = "GUID", nullable = true)
+    private String  guid;
+    @Basic
     @Column(name = "RES_SSN", nullable = true, precision = 0)
     private Long resSsn;
     @Basic

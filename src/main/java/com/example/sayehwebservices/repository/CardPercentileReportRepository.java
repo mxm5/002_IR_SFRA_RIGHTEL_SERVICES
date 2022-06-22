@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CardPercentileReportRepository extends JpaRepository<CardPercentileReport,Long> {
+public interface CardPercentileReportRepository extends JpaRepository<CardPercentileReport,String > {
 
     @Query(nativeQuery = true,value = "select refahdb.get_memberid(:ssn) from dual")
     Long getHashedSsn(@Param("ssn") String ssn);
