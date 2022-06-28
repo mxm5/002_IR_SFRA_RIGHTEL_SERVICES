@@ -38,7 +38,7 @@ public class EconomicInformationInquiryService {
 
         long hashedSsn = earningRepo.getHashedSsn(nationalCode);
         List<CardPercentileReport> cardPercentileReports = percentileRepo
-                .findByResSsn(hashedSsn);
+                .findByResSsnOrderByPercentile(hashedSsn);
 
         cardPercentileReports.forEach(System.out::println);
         List<CarInformation> carInformationList = carsRepo
