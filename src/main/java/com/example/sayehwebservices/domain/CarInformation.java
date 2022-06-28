@@ -23,7 +23,7 @@ public class CarInformation {
     private Long resSsn;
     @Basic
     @Column(name = "OWNER_SSN", nullable = true, length = 3)
-    private String ownerSsn;
+    private Long ownerSsn;
     @Basic
     @Column(name = "FIRSTNAME", nullable = true, length = 100)
     private String firstname;
