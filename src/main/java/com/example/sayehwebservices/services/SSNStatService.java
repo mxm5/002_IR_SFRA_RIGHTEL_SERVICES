@@ -76,7 +76,7 @@ public class SSNStatService {
         }
 
         // getting function
-        StoredProcedureQuery procedure = entityManager.createStoredProcedureQuery("REFAHDB.PKG_OBJECTION.PRC_REGISTER2");
+        StoredProcedureQuery procedure = entityManager.createStoredProcedureQuery("REFAHDB.PKG_OBJECTION.PRC_REGISTER");
         // defining parameters in function
         procedure.registerStoredProcedureParameter("P_IN_SSN", String.class, ParameterMode.IN);
         procedure.registerStoredProcedureParameter("P_OUT_ENTERANCE", Integer.class, ParameterMode.OUT);
