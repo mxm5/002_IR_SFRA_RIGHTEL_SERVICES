@@ -1,17 +1,11 @@
 package com.example.sayehwebservices.services;
 
-import com.example.sayehwebservices.Utils.PersianFaker;
-import com.example.sayehwebservices.domain.CarInformation;
-import com.example.sayehwebservices.domain.CardPercentileReport;
-import com.example.sayehwebservices.domain.EarningReport;
-import com.example.sayehwebservices.domain.RareDeceasesInfo;
-import com.example.sayehwebservices.repository.CarInfoRepository;
-import com.example.sayehwebservices.repository.CardPercentileReportRepository;
-import com.example.sayehwebservices.repository.EarningReportRepository;
-import com.example.sayehwebservices.repository.RareDeceaseInfoRepository;
-import com.example.sayehwebservices.services.dto.FamilyMembersRes;
+import com.example.sayehwebservices.domain.*;
+import com.example.sayehwebservices.repository.*;
 import com.example.sayehwebservices.services.dto.GeneralEconomicStatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,20 +17,32 @@ public class EconomicInformationInquiryService {
     final CarInfoRepository carsRepo;
     final EarningReportRepository earningRepo;
     final RareDeceaseInfoRepository deceaseRepo;
+    final SSNSStatRepository ssnsStatRepository;
 
     @Autowired
-    public EconomicInformationInquiryService(CardPercentileReportRepository percentileRepo, CarInfoRepository carsRepo, EarningReportRepository earningRepo, RareDeceaseInfoRepository deceaseRepo) {
+    public EconomicInformationInquiryService(CardPercentileReportRepository percentileRepo, CarInfoRepository carsRepo, EarningReportRepository earningRepo, RareDeceaseInfoRepository deceaseRepo, SSNSStatRepository ssnsStatRepository) {
         this.percentileRepo = percentileRepo;
         this.carsRepo = carsRepo;
         this.earningRepo = earningRepo;
         this.deceaseRepo = deceaseRepo;
+        this.ssnsStatRepository = ssnsStatRepository;
     }
 
 
-    public GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(String nationalCode) {
+    public GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(String nationalCode) throws Exception {
 
-
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
         long hashedSsn = earningRepo.getHashedSsn(nationalCode);
+        if (username.equals("2b3938393132363230")) {
+            SSNStat statusByNationalCode = ssnsStatRepository.getStatusByNationalCode(
+                    nationalCode
+            );
+            if (statusByNationalCode.getDecile() > 5) {
+                throw new Exception("اطلاعات برای دهک های بیشتر از 5 نمایش داده نمیشود");
+            }
+        }
+
         List<CardPercentileReport> cardPercentileReports = percentileRepo
                 .findByResSsnOrderByPercentile(hashedSsn);
 

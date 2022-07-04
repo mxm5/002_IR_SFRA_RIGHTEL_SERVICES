@@ -8,6 +8,8 @@ import com.example.sayehwebservices.services.dto.GeneralEconomicStatusResponse;
 import com.example.sayehwebservices.services.dto.NationalCodeRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,7 @@ public class FamilyEcoInfoController {
     EconomicInformationInquiryService inquiryService;
 
     @PostMapping("/detailed-inquiry")
-    GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) {
+    GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) throws Exception {
         return inquiryService.getEconomicStatuesForPersonByNationalCode(nationalCodeRequest.getNationalCode());
     }
 
