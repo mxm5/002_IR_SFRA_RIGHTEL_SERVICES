@@ -26,7 +26,7 @@ class SayehWebservicesApplicationTests {
     void contextLoads() {
 //       service.getShitC("1111111111");
 //        service.gsd();
-        service.getShit("2740903499");
+//        service.getShit("2740903499");
     }
 
 }
