@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -20,9 +21,19 @@ public class KhanevarService {
        Long hashedSsn = khanevarRepository.getHashedSsn(nationalCode);
        List<khanevar> byResSsn = khanevarRepository.findByResSsn(hashedSsn);
        byResSsn.forEach(khanevar -> {
-           khanevar.setResSsn(Long.parseLong(nationalCode));
-           khanevar.setSsn(0L);
+           if (Objects.equals(khanevar.getResSsn(), khanevar.getSsn())) {
+               khanevar.setResSsn(Long.parseLong(nationalCode));
+               khanevar.setSsn(Long.parseLong(nationalCode));
+
+           }else {
+               khanevar.setResSsn(Long.parseLong(nationalCode));
+               khanevar.setSsn(0L);
+           }
+
        });
+
+
+
 
        return new FamilyMembersRes(byResSsn);
    }
