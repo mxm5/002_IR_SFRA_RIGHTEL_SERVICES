@@ -2,6 +2,7 @@ package com.example.sayehwebservices.controller;
 
 import com.example.sayehwebservices.services.EconomicInfoService;
 import com.example.sayehwebservices.services.EconomicInformationInquiryService;
+import com.example.sayehwebservices.services.LogsServiece;
 import com.example.sayehwebservices.services.dto.EcoInfoResponseDto;
 import com.example.sayehwebservices.services.dto.FamilyMembersRes;
 import com.example.sayehwebservices.services.dto.GeneralEconomicStatusResponse;
@@ -20,8 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class FamilyEcoInfoController {
 
-
+// todo: log in database
     private EconomicInfoService ecoInfoService;
+
+    public final LogsServiece logsServiece;
+
+    @Autowired
+    public FamilyEcoInfoController(LogsServiece logsServiece) {
+        this.logsServiece = logsServiece;
+    }
+
 
     @PostMapping("/by-national-code")
     EcoInfoResponseDto get(@RequestBody NationalCodeRequest nationalCodeRequest) {

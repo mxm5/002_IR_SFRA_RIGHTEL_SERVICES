@@ -16,13 +16,24 @@ public class AccessService {
     AccessRepo accessRepo;
 
     @Autowired
+    LogsServiece logsServiece;
+    @Autowired
     SSNStatService ssnStatService;
 
     public AccessResponse getAccessInfo(String nationalCode) throws Exception {
 
+        AccessResponse accessFromOracleFunction=null;
+        try {
+            accessFromOracleFunction = ssnStatService.getAccessFromOracleFunction(nationalCode);
+            if (accessFromOracleFunction != null)
+                logsServiece.logForNationalCodeWithDescriptionAndSuccess(nationalCode, "get-system-access", true);
+            else
+                logsServiece.logForNationalCodeWithDescriptionAndSuccess(nationalCode, "get-system-access-err null", false);
 
-
-       return ssnStatService.getAccessFromOracleFunction(nationalCode);
-
+        } catch (Exception e) {
+            logsServiece.logForNationalCodeWithDescriptionAndSuccess(nationalCode, "get-system-access-err message:[["+e.getMessage()+"]] ", false);
+            throw e;
+        }
+        return accessFromOracleFunction;
     }
 }

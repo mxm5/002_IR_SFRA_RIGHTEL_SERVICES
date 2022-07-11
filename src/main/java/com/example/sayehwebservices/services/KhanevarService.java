@@ -29,7 +29,6 @@ public class KhanevarService {
                khanevar.setResSsn(Long.parseLong(nationalCode));
                khanevar.setSsn(0L);
            }
-
        });
 
 

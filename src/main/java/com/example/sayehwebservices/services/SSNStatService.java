@@ -112,11 +112,13 @@ public class SSNStatService {
                 can_view_economic_info
         ));
 
-
-        return new AccessResponse(
-                accessList, p_out_message, p_out_enterance==1
-        );
-
+//        try {
+            return new AccessResponse(
+                    accessList, p_out_message, p_out_enterance == 1
+            );
+//        } catch (Exception exception) {
+//
+//        }
     }
 
 
