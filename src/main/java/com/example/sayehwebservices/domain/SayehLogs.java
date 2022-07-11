@@ -38,4 +38,7 @@ public class SayehLogs {
     @ColumnDefault("0")
     private Boolean successfulResult;
 
+    @Column(name = "sayeh_principle",length = 1000)
+    private String principle;
+
 }
