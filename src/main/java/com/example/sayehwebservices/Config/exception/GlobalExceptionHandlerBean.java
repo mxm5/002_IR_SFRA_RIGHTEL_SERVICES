@@ -23,6 +23,7 @@ public class GlobalExceptionHandlerBean {
                 exception.getMessage(),
                 request.getDescription(false)
         );
+        exception.printStackTrace();
         log.error(exception.getMessage());
         log.error(exception.getCause().toString());
         log.error(exception.getStackTrace().toString());
