@@ -1,4 +1,4 @@
-package com.example.sayehwebservices.controller;
+package com.example.sayehwebservices.controller.rightels;
 
 import com.example.sayehwebservices.Config.exception.DecileInfoCodedException;
 import com.example.sayehwebservices.services.DecileInformationService;
