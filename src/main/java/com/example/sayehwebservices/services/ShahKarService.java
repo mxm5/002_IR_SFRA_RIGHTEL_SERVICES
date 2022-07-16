@@ -84,7 +84,7 @@ public class ShahKarService {
         System.out.println(rawString);
         String timeString = removeLastThree(removeTLetter(removeDots(removeColons(removeDashes(rawString)))));
         String providerCode = "0515";
-        return providerCode + timeString;
+        return providerCode + timeString+"000";
     }
 
     private static String removeLastThree(String text) {
