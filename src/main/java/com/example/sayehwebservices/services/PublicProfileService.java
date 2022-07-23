@@ -31,7 +31,12 @@ public class PublicProfileService {
         LocalDate gregorianBirthdate = persianDateObj.toGregorian();
         String nationalCode = publicProfileRequest.getNationalCode();
 
-        long hashedNationalCode = publicProfileRepo.getHashedSsn(nationalCode);
+        Long hashedNationalCode = publicProfileRepo.getHashedSsn(nationalCode);
+        if (hashedNationalCode == null) {
+            throw new Exception(
+                    "could not find the data for that national code"
+            );
+        }
         RegisteredPublicProfile person = publicProfileRepo.findByNationalcodeAndBirthdate(
                 hashedNationalCode, null
         );
