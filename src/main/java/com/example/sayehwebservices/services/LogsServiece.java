@@ -1,5 +1,6 @@
 package com.example.sayehwebservices.services;
 
+import com.example.sayehwebservices.Utils.TimeZoneUtil;
 import com.example.sayehwebservices.domain.SayehLogs;
 import com.example.sayehwebservices.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,8 @@ public class LogsServiece {
 
         SayehLogs currentLog=new SayehLogs();
         currentLog.setNationalCode(nationalCode);
-        currentLog.setLocalDateTime(LocalDateTime.now());
+        LocalDateTime tehranLocalDateTime = TimeZoneUtil.getTehranLocalDateTime();
+        currentLog.setLocalDateTime(tehranLocalDateTime);
         currentLog.setServiceName(serviceName);
         currentLog.setSuccessfulResult(success);
         currentLog.setPrinciple(username);

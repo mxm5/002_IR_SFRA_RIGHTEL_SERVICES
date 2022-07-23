@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Logs")
+@Table(name = "Rightel_Logs")
 public class SayehLogs {
     @Id
     @GeneratedValue
