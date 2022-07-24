@@ -29,14 +29,14 @@ public class AccessDeniedResponseHandler implements AccessDeniedHandler {
         HttpHeaders headers = new HttpHeaders(
         );
         headers.put("cause", List.of(
-                e.getCause().toString()
+                e.getCause()!=null?e.getCause().toString():""
         ));
         headers.put("ip",
                 List.of(
                         httpServletRequest.getRemoteAddr()
                 )
         );
-        ResponseEntity<String> response = new ResponseEntity(e.getMessage(), null, HttpStatus.FORBIDDEN);
+        ResponseEntity<String> response = new ResponseEntity(e.getCause(), headers, HttpStatus.FORBIDDEN);
         OutputStream out = httpServletResponse.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         httpServletResponse.setStatus(403);

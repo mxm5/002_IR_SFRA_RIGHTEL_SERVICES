@@ -1,9 +1,11 @@
 package com.example.sayehwebservices.services;
 
+import com.example.sayehwebservices.domain.RegisteredPublicProfile;
 import com.example.sayehwebservices.domain.SSNStat;
 import com.example.sayehwebservices.repository.SSNSStatRepository;
 import com.example.sayehwebservices.services.dto.AccessResponse;
 import com.example.sayehwebservices.services.dto.AppAccess;
+import com.example.sayehwebservices.services.dto.PublicProfileRequest;
 import com.example.sayehwebservices.services.dto.SSNStatResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -30,35 +32,56 @@ public class SSNStatService {
 
     @Autowired
     SSNSStatRepository ssnsStatRepository;
+    @Autowired
+    PublicProfileService publicProfileService;
 
     public SSNStatResponseDto getForPersonByNationalCode(String nationalCode) {
         SSNStat statusByNationalCode = ssnsStatRepository.getStatusByNationalCode(
                 nationalCode
         );
 
+        String firstName = "unknown";
+        Integer gender = -1;
+
+
+        try {
+            RegisteredPublicProfile registeredPublicProfile = publicProfileService.getRegisteredPublicProfile(nationalCode);
+            if (registeredPublicProfile!=null) {
+                firstName = registeredPublicProfile.getFirstname();
+                gender = registeredPublicProfile.getGenderid() ? 1 : 2;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (statusByNationalCode != null) {
 
             if (statusByNationalCode.getSsnStat() == 1) {
-                return new SSNStatResponseDto(
+                SSNStatResponseDto ssnStatResponseDto = new SSNStatResponseDto(
                         "این کد ملی به عنوان سرپرست در سامانه ثبت شده است",
                         1,
                         statusByNationalCode.getDecile(),
                         statusByNationalCode.getMashmool() == 1
 
                 );
+                ssnStatResponseDto.setFirstName(firstName);
+                ssnStatResponseDto.setGender(gender);
+                return ssnStatResponseDto;
             } else {
-                return new SSNStatResponseDto(
+                SSNStatResponseDto ssnStatResponseDto = new SSNStatResponseDto(
                         "این کد ملی به عنوان فرد غیر سرپرست ثبت شده میباشد",
                         2,
                         statusByNationalCode.getDecile(),
                         statusByNationalCode.getMashmool() == 1
 
                 );
+                ssnStatResponseDto.setFirstName(firstName);
+                ssnStatResponseDto.setGender(gender);
+                return ssnStatResponseDto;
             }
         } else {
             return new SSNStatResponseDto(
-                    "این کد ملی در سامانه ثبت نشده است",
+                    "اطلاعات خانوار شما در سامانه وجود ندارد. اگر عضو خانوهر نیروهای مسلح هستید به ستاد کل نیروهای مسلح مراجعه نمایید در غیر اینصورت براي ثبت اطلاعات خانوار به سايت my.gov.ir وارد شويد",
                     0,
                     -1);
         }
@@ -113,9 +136,9 @@ public class SSNStatService {
         ));
 
 //        try {
-            return new AccessResponse(
-                    accessList, p_out_message, p_out_enterance == 1
-            );
+        return new AccessResponse(
+                accessList, p_out_message, p_out_enterance == 1
+        );
 //        } catch (Exception exception) {
 //
 //        }

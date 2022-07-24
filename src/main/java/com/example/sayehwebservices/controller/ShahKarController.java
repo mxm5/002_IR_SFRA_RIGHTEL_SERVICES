@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -21,6 +22,7 @@ public class ShahKarController {
 
     @PostMapping("/primary-end-point")
     ResponseEntity<Object> sendSms(
+            @Valid
             @RequestBody ShahKarReq req
     ) throws IOException {
         ResponseEntity<Object> shahkar = null;

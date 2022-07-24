@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/economic-evidence-informer")
 @AllArgsConstructor
@@ -41,7 +43,7 @@ public class FamilyEcoInfoController {
     EconomicInformationInquiryService inquiryService;
 
     @PostMapping("/detailed-inquiry")
-    GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) throws Exception {
+    GeneralEconomicStatusResponse getEconomicStatuesForPersonByNationalCode(@RequestBody @Valid NationalCodeRequest nationalCodeRequest) throws Exception {
         return inquiryService.getEconomicStatuesForPersonByNationalCode(nationalCodeRequest.getNationalCode());
     }
 

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 
 @RequestMapping("/api/v1/gov-registered-public-profile")
@@ -19,7 +21,7 @@ public class GovernmentalPublicProfileRegistrationController {
 
 
     @PostMapping(value = "/by-national-code-birthday")
-    ResponseEntity<Object> getByNCAndBD(@RequestBody PublicProfileRequest publicProfileRequest) throws Exception {
+    ResponseEntity<Object> getByNCAndBD(@Valid @RequestBody PublicProfileRequest publicProfileRequest) throws Exception {
         return publicProfileService.getByBirthdayAndNationalCode(publicProfileRequest);
     }
 }

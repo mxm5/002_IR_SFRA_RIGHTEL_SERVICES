@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 public class AccessController {
@@ -21,7 +23,7 @@ public class AccessController {
 
     // todo : log it
     @PostMapping("/get-system-access")
-    public AccessResponse getAccessFor(@RequestBody NationalCodeRequest nationalCodeRequest) throws Exception {
+    public AccessResponse getAccessFor(@RequestBody @Valid NationalCodeRequest nationalCodeRequest) throws Exception {
         String nationalCode = nationalCodeRequest.getNationalCode();
 
         return accessService.getAccessInfo(nationalCode);

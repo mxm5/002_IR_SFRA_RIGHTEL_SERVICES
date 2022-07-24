@@ -1,5 +1,6 @@
 package com.example.sayehwebservices;
 
+import com.example.sayehwebservices.repository.SSNSStatRepository;
 import org.hibernate.internal.SessionImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,13 @@ class SayehWebservicesApplicationTests {
     @Autowired
     Tester service;
 
+    @Autowired
+    SSNSStatRepository ssnsStatRepository;
+
     @Test
     void contextLoads() {
+        Integer g = ssnsStatRepository.checkNationalCodeValidity("2740903499");
+        System.out.println(g==1);
 //       service.getShitC("1111111111");
 //        service.gsd();
 //        service.getShit("2740903499");
@@ -38,6 +44,9 @@ class Tester{
 
     @PersistenceContext
     private EntityManager entityManager;
+
+
+
 
 
     public void getShit(String nationalCode) {

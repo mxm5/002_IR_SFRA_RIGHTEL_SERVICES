@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/family")
@@ -22,7 +23,7 @@ public class FamilyController {
     KhanevarService khanevarService;
 
     @PostMapping("/get-family-members-by-household-parent-national-code")
-    FamilyMembersRes getFamilyMembersByHouseHoldParentNationalCode(@RequestBody NationalCodeRequest nationalCodeRequest) {
+    FamilyMembersRes getFamilyMembersByHouseHoldParentNationalCode(@RequestBody @Valid NationalCodeRequest nationalCodeRequest) {
         return khanevarService.getFamilyMembersByParentNationalCode(
                 nationalCodeRequest.getNationalCode()
         );

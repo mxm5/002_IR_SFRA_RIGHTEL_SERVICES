@@ -31,15 +31,7 @@ public class PublicProfileService {
         LocalDate gregorianBirthdate = persianDateObj.toGregorian();
         String nationalCode = publicProfileRequest.getNationalCode();
 
-        Long hashedNationalCode = publicProfileRepo.getHashedSsn(nationalCode);
-        if (hashedNationalCode == null) {
-            throw new Exception(
-                    "could not find the data for that national code"
-            );
-        }
-        RegisteredPublicProfile person = publicProfileRepo.findByNationalcodeAndBirthdate(
-                hashedNationalCode, null
-        );
+        RegisteredPublicProfile person = getRegisteredPublicProfile(nationalCode);
         if (person != null) {
             String firstName = person.getFirstname();
             String lastName = person.getLastname();
@@ -95,6 +87,19 @@ public class PublicProfileService {
             );
         } else
             throw new Exception("data not found");
+    }
+
+    public RegisteredPublicProfile getRegisteredPublicProfile(String nationalCode) throws Exception {
+        Long hashedNationalCode = publicProfileRepo.getHashedSsn(nationalCode);
+        if (hashedNationalCode == null) {
+            throw new Exception(
+                    "اطلاعات خانوار شما در سامانه وجود ندارد. اگر عضو خانوهر نیروهای مسلح هستید به ستاد کل نیروهای مسلح مراجعه نمایید در غیر اینصورت براي ثبت اطلاعات خانوار به سايت my.gov.ir وارد شويد"
+            );
+        }
+        RegisteredPublicProfile person = publicProfileRepo.findByNationalcodeAndBirthdate(
+                hashedNationalCode, null
+        );
+        return person;
     }
 
 }

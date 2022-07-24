@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/individual-existence-status")
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class PersonExistenceInformation {
 
 
     @PostMapping("/by-national-code")
-    SSNStatResponseDto get(@RequestBody NationalCodeRequest nationalCodeRequest) {
+    SSNStatResponseDto get(@RequestBody @Valid NationalCodeRequest nationalCodeRequest) {
         return ssnStatService.getForPersonByNationalCode(nationalCodeRequest.getNationalCode());
     }
 
